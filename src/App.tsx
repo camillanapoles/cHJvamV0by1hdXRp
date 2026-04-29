@@ -20,10 +20,14 @@ export default function App() {
   const [marketMode, setMarketMode] = useState<'red' | 'blue' | null>(null)
 
   const go = useCallback((idx: number) => {
+    if (current === 1 && idx === 2 && marketMode !== 'blue') {
+      setMarketMode('blue')
+      return
+    }
     setDirection(idx > current ? 1 : -1)
     setCurrent(idx)
     if (current === 1 && idx !== 1) setMarketMode(null)
-  }, [current])
+  }, [current, marketMode])
 
   const next = useCallback(() => {
     if (current === 1 && marketMode !== 'blue') {
