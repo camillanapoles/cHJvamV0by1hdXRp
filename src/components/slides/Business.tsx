@@ -3,18 +3,50 @@ import { motion } from 'framer-motion'
 
 type Scenario = 'conservador' | 'moderado' | 'otimista'
 
-const SCENARIOS: Record<Scenario, { users: number; mrr: string; arr: string; label: string; color: string }> = {
-  conservador: { users: 500, mrr: 'R$ 35K', arr: 'R$ 420K', label: 'Conservador', color: '#06B6D4' },
-  moderado: { users: 2000, mrr: 'R$ 140K', arr: 'R$ 1.7M', label: 'Moderado', color: '#8B5CF6' },
-  otimista: { users: 5000, mrr: 'R$ 350K', arr: 'R$ 4.2M', label: 'Otimista', color: '#10B981' },
+const SCENARIOS: Record<Scenario, {
+  users: number; mrr: string; arr: string; label: string; color: string
+  revenue: { source: string; monthly: string; bar: number; color: string }[]
+  totalAno3: string
+  breakEven: string
+  ltv: string
+}> = {
+  conservador: {
+    users: 500, mrr: 'R$ 35K', arr: 'R$ 420K', label: 'Conservador', color: '#06B6D4',
+    revenue: [
+      { source: 'B2C Agentes IA', monthly: 'R$ 5-15K', bar: 15, color: '#8B5CF6' },
+      { source: 'B2B Ponte TEA', monthly: 'R$ 20-50K', bar: 35, color: '#06B6D4' },
+      { source: 'B2C Ponte TEA', monthly: 'R$ 5-10K', bar: 10, color: '#06B6D4' },
+      { source: 'Mensalidades Plano Saúde', monthly: 'R$ 30-80K', bar: 45, color: '#F59E0B' },
+    ],
+    totalAno3: 'R$ 500K-1.5M',
+    breakEven: '200 users',
+    ltv: 'R$ 500-1.5K',
+  },
+  moderado: {
+    users: 2000, mrr: 'R$ 140K', arr: 'R$ 1.7M', label: 'Moderado', color: '#8B5CF6',
+    revenue: [
+      { source: 'B2C Agentes IA', monthly: 'R$ 20-50K', bar: 30, color: '#8B5CF6' },
+      { source: 'B2B Ponte TEA', monthly: 'R$ 50-100K', bar: 55, color: '#06B6D4' },
+      { source: 'B2C Ponte TEA', monthly: 'R$ 10-30K', bar: 20, color: '#06B6D4' },
+      { source: 'Mensalidades Plano Saúde', monthly: 'R$ 100-250K', bar: 80, color: '#F59E0B' },
+    ],
+    totalAno3: 'R$ 2-5M',
+    breakEven: '150 users',
+    ltv: 'R$ 800-2K',
+  },
+  otimista: {
+    users: 5000, mrr: 'R$ 350K', arr: 'R$ 4.2M', label: 'Otimista', color: '#10B981',
+    revenue: [
+      { source: 'B2C Agentes IA', monthly: 'R$ 50-120K', bar: 50, color: '#8B5CF6' },
+      { source: 'B2B Ponte TEA', monthly: 'R$ 150-300K', bar: 80, color: '#06B6D4' },
+      { source: 'B2C Ponte TEA', monthly: 'R$ 30-80K', bar: 35, color: '#06B6D4' },
+      { source: 'Mensalidades Plano Saúde', monthly: 'R$ 300-600K', bar: 95, color: '#F59E0B' },
+    ],
+    totalAno3: 'R$ 5-12M',
+    breakEven: '100 users',
+    ltv: 'R$ 1-3K',
+  },
 }
-
-const REVENUE_STREAMS = [
-  { source: 'B2C Agentes IA', layer: 1, monthly: 'R$ 20-50K', bar: 35, color: '#8B5CF6' },
-  { source: 'B2B Ponte TEA', layer: 2, monthly: 'R$ 50-100K', bar: 60, color: '#06B6D4' },
-  { source: 'B2C Ponte TEA', layer: 2, monthly: 'R$ 10-30K', bar: 25, color: '#06B6D4' },
-  { source: 'Mensalidades Plano Saúde', layer: 3, monthly: 'R$ 100-250K', bar: 90, color: '#F59E0B' },
-]
 
 function AnimatedCounter({ target, prefix = '', suffix = '' }: { target: number; prefix?: string; suffix?: string }) {
   const [count, setCount] = useState(0)
@@ -101,7 +133,7 @@ export default function Business() {
         <div className="mt-6 pt-6 border-t border-slate-800">
           <p className="text-xs text-slate-500 mb-3">Receita por camada (Ano 3)</p>
           <div className="space-y-2">
-            {REVENUE_STREAMS.map((stream, i) => (
+            {data.revenue.map((stream, i) => (
               <div key={i} className="flex items-center gap-3">
                 <span className="text-xs text-slate-400 w-40 truncate">{stream.source}</span>
                 <div className="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
@@ -122,7 +154,7 @@ export default function Business() {
           <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-700/50">
             <span className="text-xs text-white font-semibold w-40">Total Ano 3</span>
             <div className="flex-1" />
-            <span className="text-sm font-bold gradient-text">R$ 2-5M</span>
+            <span className="text-sm font-bold gradient-text">{data.totalAno3}</span>
           </div>
         </div>
       </motion.div>
@@ -135,10 +167,10 @@ export default function Business() {
         className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-3xl"
       >
         {[
-          { label: 'Break-even', value: '200 users', icon: '📈' },
+          { label: 'Break-even', value: data.breakEven, icon: '📈' },
           { label: 'Pricing B2C', value: 'R$ 49-149/mês', icon: '💳' },
           { label: 'Pricing B2B', value: 'R$ 500-2K/mês', icon: '🏢' },
-          { label: 'LTV estimado', value: 'R$ 500-1.5K', icon: '💰' },
+          { label: 'LTV estimado', value: data.ltv, icon: '💰' },
         ].map((m, i) => (
           <motion.div
             key={i}
