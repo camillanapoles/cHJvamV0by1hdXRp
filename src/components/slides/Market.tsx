@@ -30,8 +30,15 @@ const BLUE_OCEAN = [
   { name: 'Ecossistema 3 Camadas', desc: 'IA + Empregabilidade + Saúde integrados' },
 ]
 
-export default function Market() {
-  const [mode, setMode] = useState<'red' | 'blue' | null>(null)
+interface MarketProps {
+  marketMode?: 'red' | 'blue' | null
+  setMarketMode?: (mode: 'red' | 'blue') => void
+}
+
+export default function Market({ marketMode, setMarketMode }: MarketProps) {
+  const [localMode, setLocalMode] = useState<'red' | 'blue' | null>(null)
+  const mode = marketMode ?? localMode
+  const handleSetMode = setMarketMode ?? setLocalMode
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-10 pb-16">
@@ -56,7 +63,7 @@ export default function Market() {
       {/* Toggle */}
       <div className="flex items-center gap-3 mb-8">
         <button
-          onClick={() => setMode('red')}
+          onClick={() => handleSetMode('red')}
           className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
             mode === 'red'
               ? 'bg-red-500/20 text-red-400 border-2 border-red-500/40 shadow-[0_0_12px_rgba(239,68,68,0.15)]'
@@ -66,7 +73,7 @@ export default function Market() {
           Oceano Vermelho
         </button>
         <button
-          onClick={() => setMode('blue')}
+          onClick={() => handleSetMode('blue')}
           className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
             mode === 'blue'
               ? 'bg-accent-cyan/20 text-accent-cyan border-2 border-accent-cyan/40 shadow-[0_0_12px_rgba(6,182,212,0.15)]'

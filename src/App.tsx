@@ -17,15 +17,21 @@ export default function App() {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem('auti_auth') === '1')
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(1)
+  const [marketMode, setMarketMode] = useState<'red' | 'blue' | null>(null)
 
   const go = useCallback((idx: number) => {
     setDirection(idx > current ? 1 : -1)
     setCurrent(idx)
+    if (current === 1 && idx !== 1) setMarketMode(null)
   }, [current])
 
   const next = useCallback(() => {
+    if (current === 1 && marketMode !== 'blue') {
+      setMarketMode('blue')
+      return
+    }
     if (current < SLIDES.length - 1) go(current + 1)
-  }, [current, go])
+  }, [current, go, marketMode])
 
   const prev = useCallback(() => {
     if (current > 0) go(current - 1)
@@ -87,7 +93,7 @@ export default function App() {
           transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           className="absolute inset-0"
         >
-          <SlideComponent />
+          <SlideComponent {...(current === 1 ? { marketMode, setMarketMode } : {})} />
         </motion.div>
       </AnimatePresence>
 
