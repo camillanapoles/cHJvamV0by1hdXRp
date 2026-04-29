@@ -97,8 +97,6 @@ export default function App() {
         total={SLIDES.length}
         labels={SLIDE_LABELS}
         onNavigate={go}
-        onNext={next}
-        onPrev={prev}
       />
     </div>
   )
