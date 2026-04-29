@@ -13,7 +13,7 @@ export default function Navigation({ current, total, labels, onNavigate, onNext,
   return (
     <>
       {/* Dot indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5">
         {labels.map((label, i) => (
           <button
             key={label}
@@ -23,11 +23,11 @@ export default function Navigation({ current, total, labels, onNavigate, onNext,
           >
             <motion.div
               animate={{
-                width: i === current ? 32 : 8,
+                width: i === current ? 36 : 8,
                 backgroundColor: i === current ? '#8B5CF6' : i < current ? '#06B6D4' : '#334155',
               }}
               transition={{ duration: 0.3 }}
-              className="h-2 rounded-full"
+              className="h-2.5 rounded-full"
             />
             <span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
               {label}
@@ -40,7 +40,7 @@ export default function Navigation({ current, total, labels, onNavigate, onNext,
       {current > 0 && (
         <button
           onClick={onPrev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 glass rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:border-accent-purple transition-all"
+          className="absolute left-4 bottom-20 z-50 w-12 h-12 glass rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:border-accent-purple transition-all text-lg"
           aria-label="Slide anterior"
         >
           ←
@@ -49,7 +49,7 @@ export default function Navigation({ current, total, labels, onNavigate, onNext,
       {current < total - 1 && (
         <button
           onClick={onNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 glass rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:border-accent-purple transition-all"
+          className="absolute right-4 bottom-20 z-50 w-12 h-12 glass rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:border-accent-purple transition-all text-lg"
           aria-label="Próximo slide"
         >
           →
