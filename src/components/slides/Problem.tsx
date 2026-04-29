@@ -21,6 +21,11 @@ const SOCIAL_EXAMPLES = [
     vague: '"Seja mais proativo"',
     who: 'Gestor',
     confusion: '"Proativo... o que exatamente eu deveria fazer diferente?"',
+    thoughtBubble: [
+      'proativo... fazer o que?',
+      'estou fazendo algo errado?',
+      'não entendi o que ele quer...',
+    ],
     literal: [
       'Proponha 1 melhoria por semana no seu projeto',
       'Antecipe problemas antes que alguém precise pedir',
@@ -31,6 +36,11 @@ const SOCIAL_EXAMPLES = [
     vague: '"Precisamos melhorar a dinâmica da equipe"',
     who: 'Coordenador',
     confusion: '"Dinâmica? Estamos trabalhando normalmente... o que mudou?"',
+    thoughtBubble: [
+      'dinâmica... o que é isso?',
+      'fiz algo que desagradou?',
+      'devo perguntar? será constrangedor?',
+    ],
     literal: [
       'Participe de pelo menos 2 reuniões semanais do time',
       'Responda mensagens de colegas em até 4 horas',
@@ -42,6 +52,11 @@ const SOCIAL_EXAMPLES = [
     vague: '"Bom trabalho!"',
     who: 'Chefe',
     confusion: '"Trabalho bom... mas estava bom antes também? Devo mudar algo?"',
+    thoughtBubble: [
+      'bom trabalho... sério?',
+      'devo ter feito mais?',
+      'isso é elogio ou alerta?',
+    ],
     literal: [
       'Seu chefe está satisfeito com a entrega recente',
       'Nenhuma ação é necessária agora',
@@ -52,28 +67,43 @@ const SOCIAL_EXAMPLES = [
 
 export default function Problem() {
   const [exampleIdx, setExampleIdx] = useState(0)
-  const [phase, setPhase] = useState<'idle' | 'vague' | 'confusion' | 'translation'>('idle')
+  const [phase, setPhase] = useState<'idle' | 'vague' | 'thinking' | 'pause' | 'translation'>('idle')
   const [visibleLines, setVisibleLines] = useState(0)
+  const [visibleThoughts, setVisibleThoughts] = useState(0)
 
   useEffect(() => {
     setPhase('idle')
     setVisibleLines(0)
-    const t0 = setTimeout(() => setPhase('vague'), 800)
-    const t1 = setTimeout(() => setPhase('confusion'), 4500)
-    const t2 = setTimeout(() => {
+    setVisibleThoughts(0)
+    // Pause before starting
+    const t0 = setTimeout(() => setPhase('vague'), 1200)
+    // Let the message sink in, then show thinking
+    const t1 = setTimeout(() => setPhase('thinking'), 5000)
+    // Pause to feel the weight of the confusion
+    const t2 = setTimeout(() => setPhase('pause'), 11000)
+    // Then the translation arrives
+    const t3 = setTimeout(() => {
       setPhase('translation')
       setVisibleLines(0)
-    }, 8000)
-    const t3 = setTimeout(() => {
+    }, 13000)
+    // Next example
+    const t4 = setTimeout(() => {
       setExampleIdx((i) => (i + 1) % SOCIAL_EXAMPLES.length)
-    }, 14000)
-    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    }, 20000)
+    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
   }, [exampleIdx])
+
+  // Stagger thought bubbles
+  useEffect(() => {
+    if (phase !== 'thinking' || visibleThoughts >= SOCIAL_EXAMPLES[exampleIdx].thoughtBubble.length) return
+    const t = setTimeout(() => setVisibleThoughts((v) => v + 1), 1200)
+    return () => clearTimeout(t)
+  }, [phase, visibleThoughts, exampleIdx])
 
   // Stagger translation lines
   useEffect(() => {
     if (phase !== 'translation' || visibleLines >= SOCIAL_EXAMPLES[exampleIdx].literal.length) return
-    const t = setTimeout(() => setVisibleLines((v) => v + 1), 600)
+    const t = setTimeout(() => setVisibleLines((v) => v + 1), 800)
     return () => clearTimeout(t)
   }, [phase, visibleLines, exampleIdx])
 
@@ -138,7 +168,7 @@ export default function Problem() {
         <div className="glass-strong rounded-2xl p-6 space-y-4">
           {/* Neurotypical message (left bubble) */}
           <AnimatePresence>
-            {(phase === 'vague' || phase === 'confusion' || phase === 'translation') && (
+            {(phase === 'vague' || phase === 'thinking' || phase === 'pause' || phase === 'translation') && (
               <motion.div
                 key={`vague-${exampleIdx}`}
                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -162,26 +192,53 @@ export default function Problem() {
             )}
           </AnimatePresence>
 
-          {/* TEA confusion (right bubble, typing indicator) */}
+          {/* Subconscious thoughts (thinking + pause phases) */}
           <AnimatePresence>
-            {phase === 'confusion' && (
+            {(phase === 'thinking' || phase === 'pause') && (
               <motion.div
-                key={`confusion-${exampleIdx}`}
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
+                key={`thinking-${exampleIdx}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: phase === 'pause' ? 0.3 : 1, y: 0 }}
+                transition={{ duration: 0.6 }}
                 className="flex items-start gap-3 flex-row-reverse"
               >
                 <div className="w-9 h-9 rounded-full bg-accent-purple/20 flex items-center justify-center text-sm shrink-0 border border-accent-purple/30">
                   🧩
                 </div>
                 <div className="max-w-[80%] flex flex-col items-end">
-                  <p className="text-[10px] text-slate-500 mb-1">Pessoa com TEA</p>
-                  <div className="bg-red-500/10 border border-red-500/20 rounded-2xl rounded-tr-sm px-4 py-3">
-                    <p className="text-sm text-red-300 italic">{example.confusion}</p>
+                  <p className="text-[10px] text-accent-purple/70 mb-1 tracking-wide">subconsciente</p>
+                  <div className="space-y-1.5">
+                    {example.thoughtBubble.slice(0, visibleThoughts).map((thought, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: phase === 'pause' ? 0.4 : 0.85, x: 0 }}
+                        transition={{ duration: 0.5, delay: i * 0.1 }}
+                        className="bg-red-500/8 border border-red-500/15 rounded-xl rounded-tr-sm px-3 py-2"
+                      >
+                        <p className="text-xs text-red-300/80 italic leading-relaxed">{thought}</p>
+                      </motion.div>
+                    ))}
+                    {phase === 'thinking' && visibleThoughts < example.thoughtBubble.length && (
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: [0.2, 0.5, 0.2] }}
+                        transition={{ duration: 1.2, repeat: Infinity }}
+                        className="text-xs text-red-400/40 ml-4 italic"
+                      >
+                        ...
+                      </motion.span>
+                    )}
                   </div>
-                  <p className="text-[10px] text-slate-600 mt-1 mr-1">digitando...</p>
+                  {phase === 'pause' && (
+                    <motion.div
+                      animate={{ opacity: [0.2, 0.5, 0.2] }}
+                      transition={{ duration: 2.5, repeat: Infinity }}
+                      className="text-[10px] text-slate-600 mt-2 mr-1 italic"
+                    >
+                      processando...
+                    </motion.div>
+                  )}
                 </div>
               </motion.div>
             )}
