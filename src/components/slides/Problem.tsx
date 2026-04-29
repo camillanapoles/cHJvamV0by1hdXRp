@@ -96,14 +96,14 @@ export default function Problem() {
   // Stagger thought bubbles
   useEffect(() => {
     if (phase !== 'thinking' || visibleThoughts >= SOCIAL_EXAMPLES[exampleIdx].thoughtBubble.length) return
-    const t = setTimeout(() => setVisibleThoughts((v) => v + 1), 1200)
+    const t = setTimeout(() => setVisibleThoughts((v) => v + 1), 600)
     return () => clearTimeout(t)
   }, [phase, visibleThoughts, exampleIdx])
 
   // Stagger translation lines
   useEffect(() => {
     if (phase !== 'translation' || visibleLines >= SOCIAL_EXAMPLES[exampleIdx].literal.length) return
-    const t = setTimeout(() => setVisibleLines((v) => v + 1), 800)
+    const t = setTimeout(() => setVisibleLines((v) => v + 1), 600)
     return () => clearTimeout(t)
   }, [phase, visibleLines, exampleIdx])
 
@@ -206,16 +206,20 @@ export default function Problem() {
                   🧩
                 </div>
                 <div className="max-w-[80%] flex flex-col items-end">
-                  <p className="text-[10px] text-accent-purple/70 mb-1 tracking-wide">subconsciente</p>
-                  <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent-purple/50" />
+                    <p className="text-[10px] text-accent-purple/70 font-semibold tracking-widest uppercase">subconsciente</p>
+                  </div>
+                  <div className="bg-slate-900/60 border border-slate-700/40 rounded-xl p-3 space-y-1">
                     {example.thoughtBubble.slice(0, visibleThoughts).map((thought, i) => (
                       <motion.div
                         key={i}
                         initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: phase === 'pause' ? 0.4 : 0.85, x: 0 }}
-                        transition={{ duration: 0.5, delay: i * 0.1 }}
-                        className="bg-red-500/8 border border-red-500/15 rounded-xl rounded-tr-sm px-3 py-2"
+                        animate={{ opacity: phase === 'pause' ? 0.4 : 0.9, x: 0 }}
+                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                        className="flex items-start gap-2"
                       >
+                        <span className="text-accent-purple/40 text-[10px] mt-px shrink-0">{i + 1}</span>
                         <p className="text-xs text-red-300/80 italic leading-relaxed">{thought}</p>
                       </motion.div>
                     ))}
@@ -223,8 +227,8 @@ export default function Problem() {
                       <motion.span
                         initial={{ opacity: 0 }}
                         animate={{ opacity: [0.2, 0.5, 0.2] }}
-                        transition={{ duration: 1.2, repeat: Infinity }}
-                        className="text-xs text-red-400/40 ml-4 italic"
+                        transition={{ duration: 0.8, repeat: Infinity }}
+                        className="text-xs text-red-400/40 ml-5 italic"
                       >
                         ...
                       </motion.span>

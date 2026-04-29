@@ -22,7 +22,7 @@ export default function AuthGate({ onAuth }: { onAuth: () => void }) {
   }
 
   return (
-    <div className="w-screen h-screen bg-deep flex items-center justify-center">
+    <div className="w-screen min-h-dvh bg-deep flex items-center justify-center">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         {Array.from({ length: 30 }).map((_, i) => (
