@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number; suffix?: string; prefix?: string }) {
@@ -70,6 +70,11 @@ export default function Problem() {
   const [phase, setPhase] = useState<'idle' | 'vague' | 'thinking' | 'pause' | 'translation'>('idle')
   const [visibleLines, setVisibleLines] = useState(0)
   const [visibleThoughts, setVisibleThoughts] = useState(0)
+  const chatRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' })
+  }, [phase, visibleThoughts, visibleLines])
 
   useEffect(() => {
     setPhase('idle')
@@ -110,12 +115,13 @@ export default function Problem() {
   const example = SOCIAL_EXAMPLES[exampleIdx]
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-10 pb-16">
+    <div className="w-full h-full flex flex-col px-6 pt-10 pb-16">
+      {/* Fixed header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-center mb-10"
+        className="text-center mb-6 shrink-0"
       >
         <p className="text-accent-purple text-sm font-semibold tracking-widest uppercase mb-3">O Desafio</p>
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
@@ -131,7 +137,7 @@ export default function Problem() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 w-full max-w-4xl"
+        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 w-full max-w-4xl shrink-0"
       >
         {[
           { value: 2, suffix: 'M+', label: 'Pessoas com TEA no Brasil' },
@@ -148,13 +154,14 @@ export default function Problem() {
         ))}
       </motion.div>
 
-      {/* Chat-style dialogue simulation */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="w-full max-w-2xl"
-      >
+      {/* Chat-style dialogue — expands downward like a messenger */}
+      <div ref={chatRef} className="flex-1 min-h-0 overflow-y-auto w-full max-w-2xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="flex flex-col h-full"
+        >
         {/* Header */}
         <div className="flex items-center gap-2 mb-4 px-2">
           <div className="flex gap-1.5">
@@ -313,7 +320,7 @@ export default function Problem() {
         </div>
 
         {/* Progress dots */}
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="flex justify-center gap-2 mt-4 shrink-0">
           {SOCIAL_EXAMPLES.map((_, i) => (
             <motion.div
               key={i}
@@ -326,7 +333,8 @@ export default function Problem() {
             />
           ))}
         </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   )
 }
