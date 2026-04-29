@@ -46,6 +46,15 @@ body { overflow: hidden; background: #0B0D17; }
 .animate-float { animation: float 3s ease-in-out infinite; }
 .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .particle { display: none; }
+}
+
 .particle {
   position: absolute;
   border-radius: 50%;

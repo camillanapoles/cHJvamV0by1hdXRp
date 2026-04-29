@@ -9,9 +9,9 @@ interface Translation {
 const PRESET_EXAMPLES = [
   'Precisamos melhorar a dinâmica da equipe',
   'Mostre proatividade',
-  'Boa comunacao',
+  'Boa comunicação',
   'Bom trabalho!',
-  'Seja um lider',
+  'Seja um líder',
   'Trabalhe bem em equipe',
 ]
 
@@ -100,7 +100,7 @@ export default function SocialAgent() {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-6 pb-16">
+    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-10 pb-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

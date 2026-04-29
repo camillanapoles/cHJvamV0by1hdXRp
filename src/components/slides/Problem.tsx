@@ -76,20 +76,20 @@ export default function Problem() {
     setVisibleLines(0)
     setVisibleThoughts(0)
     // Pause before starting
-    const t0 = setTimeout(() => setPhase('vague'), 1200)
+    const t0 = setTimeout(() => setPhase('vague'), 1000)
     // Let the message sink in, then show thinking
-    const t1 = setTimeout(() => setPhase('thinking'), 5000)
+    const t1 = setTimeout(() => setPhase('thinking'), 4500)
     // Pause to feel the weight of the confusion
-    const t2 = setTimeout(() => setPhase('pause'), 11000)
+    const t2 = setTimeout(() => setPhase('pause'), 9500)
     // Then the translation arrives
     const t3 = setTimeout(() => {
       setPhase('translation')
       setVisibleLines(0)
-    }, 13000)
+    }, 11000)
     // Next example
     const t4 = setTimeout(() => {
       setExampleIdx((i) => (i + 1) % SOCIAL_EXAMPLES.length)
-    }, 20000)
+    }, 17000)
     return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4) }
   }, [exampleIdx])
 
@@ -110,7 +110,7 @@ export default function Problem() {
   const example = SOCIAL_EXAMPLES[exampleIdx]
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-6 pb-16">
+    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-10 pb-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

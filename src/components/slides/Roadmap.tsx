@@ -44,7 +44,7 @@ const NEXT_STEPS = [
 
 export default function Roadmap() {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-6 pb-16">
+    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-10 pb-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

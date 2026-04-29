@@ -33,6 +33,8 @@ export default function App() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement).tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
       if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next() }
       if (e.key === 'ArrowLeft') { e.preventDefault(); prev() }
     }
@@ -45,7 +47,7 @@ export default function App() {
   const SlideComponent = SLIDES[current]
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-deep">
+    <div className="relative w-screen min-h-dvh overflow-hidden bg-deep">
       {/* Particles background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {Array.from({ length: 20 }).map((_, i) => (

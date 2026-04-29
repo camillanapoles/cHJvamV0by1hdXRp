@@ -10,10 +10,10 @@ const SCENARIOS: Record<Scenario, { users: number; mrr: string; arr: string; lab
 }
 
 const REVENUE_STREAMS = [
-  { source: 'B2C Agentes IA', layer: 1, monthly: 'R$ 20-50K', color: '#8B5CF6' },
-  { source: 'B2B Ponte TEA', layer: 2, monthly: 'R$ 50-100K', color: '#06B6D4' },
-  { source: 'B2C Ponte TEA', layer: 2, monthly: 'R$ 10-30K', color: '#06B6D4' },
-  { source: 'Mensalidades Plano Saúde', layer: 3, monthly: 'R$ 100-250K', color: '#F59E0B' },
+  { source: 'B2C Agentes IA', layer: 1, monthly: 'R$ 20-50K', bar: 35, color: '#8B5CF6' },
+  { source: 'B2B Ponte TEA', layer: 2, monthly: 'R$ 50-100K', bar: 60, color: '#06B6D4' },
+  { source: 'B2C Ponte TEA', layer: 2, monthly: 'R$ 10-30K', bar: 25, color: '#06B6D4' },
+  { source: 'Mensalidades Plano Saúde', layer: 3, monthly: 'R$ 100-250K', bar: 90, color: '#F59E0B' },
 ]
 
 function AnimatedCounter({ target, prefix = '', suffix = '' }: { target: number; prefix?: string; suffix?: string }) {
@@ -36,7 +36,7 @@ export default function Business() {
   const data = SCENARIOS[scenario]
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-6 pb-16">
+    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-10 pb-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -107,7 +107,7 @@ export default function Business() {
                 <div className="flex-1 h-3 bg-slate-800 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
-                    animate={{ width: `${parseInt(stream.monthly.replace(/\D/g, '')) / 25}%` }}
+                    animate={{ width: `${stream.bar}%` }}
                     transition={{ delay: 0.2 + i * 0.1, duration: 0.6 }}
                     className="h-full rounded-full"
                     style={{ background: stream.color }}
