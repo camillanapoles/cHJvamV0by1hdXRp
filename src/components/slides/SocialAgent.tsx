@@ -28,7 +28,7 @@ const TRANSLATIONS: Record<string, string[]> = {
     '3) Documente soluções que você encontrar para o time',
     '4) Voluntarie-se para tarefas antes que atribuam',
   ],
-  'boa comunicacao': [
+  'boa comunicação': [
     '1) Confirme recebimento de mensagens importantes',
     '2) Responda em até 4 horas durante horário comercial',
     '3) Use lista de pontos em mensagens longas',
@@ -39,7 +39,7 @@ const TRANSLATIONS: Record<string, string[]> = {
     '→ Nenhuma ação é necessária',
     '→ Continue mantendo o padrão atual',
   ],
-  'seja um lider': [
+  'seja um líder': [
     '1) Delegue pelo menos 1 tarefa por semana',
     '2) Faça check-in individual com cada membro semanalmente',
     '3) Dê feedback específico (o quê foi bom, não só "bom")',

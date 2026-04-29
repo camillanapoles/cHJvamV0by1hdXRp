@@ -42,7 +42,7 @@ export default function Market() {
       >
         <p className="text-accent-cyan text-sm font-semibold tracking-widest uppercase mb-3">O Mercado</p>
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Oceano <span className="gradient-text">{mode === 'red' ? 'Vermelho' : 'Azul'}</span>
+          {!mode ? 'O Mercado' : <>Oceano <span className="gradient-text">{mode === 'red' ? 'Vermelho' : 'Azul'}</span></>}
         </h1>
         <p className="text-slate-400 max-w-xl mx-auto">
           {!mode
