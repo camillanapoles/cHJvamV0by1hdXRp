@@ -5,11 +5,9 @@ interface NavProps {
   total: number
   labels: string[]
   onNavigate: (idx: number) => void
-  onNext: () => void
-  onPrev: () => void
 }
 
-export default function Navigation({ current, total, labels, onNavigate, onNext, onPrev }: NavProps) {
+export default function Navigation({ current, total, labels, onNavigate }: NavProps) {
   return (
     <>
       {/* Dot indicators */}
@@ -35,26 +33,6 @@ export default function Navigation({ current, total, labels, onNavigate, onNext,
           </button>
         ))}
       </div>
-
-      {/* Arrow buttons */}
-      {current > 0 && (
-        <button
-          onClick={onPrev}
-          className="absolute left-4 bottom-20 z-50 w-12 h-12 glass rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:border-accent-purple transition-all text-lg"
-          aria-label="Slide anterior"
-        >
-          ←
-        </button>
-      )}
-      {current < total - 1 && (
-        <button
-          onClick={onNext}
-          className="absolute right-4 bottom-20 z-50 w-12 h-12 glass rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:border-accent-purple transition-all text-lg"
-          aria-label="Próximo slide"
-        >
-          →
-        </button>
-      )}
 
       {/* Slide counter */}
       <div className="absolute top-6 right-6 z-50 text-xs text-slate-500 font-mono">

@@ -84,7 +84,7 @@ export default function App() {
           initial={{ opacity: 0, x: direction * 100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: direction * -100 }}
-          transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           className="absolute inset-0"
         >
           <SlideComponent />
