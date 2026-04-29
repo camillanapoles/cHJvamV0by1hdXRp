@@ -34,7 +34,7 @@ export default function Market() {
   const [mode, setMode] = useState<'red' | 'blue'>('red')
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6 py-16">
+    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-6 pb-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -55,19 +55,23 @@ export default function Market() {
       <div className="flex items-center gap-3 mb-8">
         <button
           onClick={() => setMode('red')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            mode === 'red' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'text-slate-500 hover:text-slate-300'
+          className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
+            mode === 'red'
+              ? 'bg-red-500/20 text-red-400 border-2 border-red-500/40 shadow-[0_0_12px_rgba(239,68,68,0.15)]'
+              : 'text-slate-400 border border-slate-700 hover:border-red-500/30 hover:text-slate-200'
           }`}
         >
-          Red Ocean
+          Oceano Vermelho
         </button>
         <button
           onClick={() => setMode('blue')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            mode === 'blue' ? 'bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30' : 'text-slate-500 hover:text-slate-300'
+          className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
+            mode === 'blue'
+              ? 'bg-accent-cyan/20 text-accent-cyan border-2 border-accent-cyan/40 shadow-[0_0_12px_rgba(6,182,212,0.15)]'
+              : 'text-slate-400 border border-slate-700 hover:border-accent-cyan/30 hover:text-slate-200'
           }`}
         >
-          Blue Ocean
+          Oceano Azul
         </button>
       </div>
 

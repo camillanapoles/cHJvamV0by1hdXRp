@@ -110,7 +110,7 @@ export default function Problem() {
   const example = SOCIAL_EXAMPLES[exampleIdx]
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6 py-16">
+    <div className="w-full h-full flex flex-col items-center justify-center px-6 pt-6 pb-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
