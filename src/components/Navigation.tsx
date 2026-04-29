@@ -12,17 +12,7 @@ export default function Navigation({ current, total, labels, onNavigate }: NavPr
     <>
       {/* Bottom navigation bar */}
       <div className="absolute bottom-0 left-0 right-0 z-50">
-        <div className="flex items-center justify-between px-4 md:px-8 py-4 bg-gradient-to-t from-deep/90 via-deep/60 to-transparent">
-          {/* Left: current slide label */}
-          <motion.span
-            key={labels[current]}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-sm md:text-base text-slate-300 font-medium min-w-[100px]"
-          >
-            {labels[current]}
-          </motion.span>
-
+        <div className="flex items-center justify-center px-4 md:px-8 py-4 bg-gradient-to-t from-deep/90 via-deep/60 to-transparent">
           {/* Center: dot indicators with prominent chevrons */}
           <div className="flex items-center gap-2">
             {/* Left chevron */}
@@ -74,11 +64,6 @@ export default function Navigation({ current, total, labels, onNavigate }: NavPr
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
             </button>
           </div>
-
-          {/* Right: slide counter */}
-          <span className="text-xs text-slate-500 font-mono min-w-[50px] text-right">
-            {String(current + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
-          </span>
         </div>
       </div>
     </>
